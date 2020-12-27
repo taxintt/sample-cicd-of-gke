@@ -5,9 +5,7 @@ on:
     branches:
       - '**'
     paths:
-      - '.github/workflows/tf-pr-check.yaml'
-      - '.tfnotify.yaml'
-      - '**.tf'
+      - '**'
 
 env:
   TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
