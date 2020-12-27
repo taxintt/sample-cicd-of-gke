@@ -13,7 +13,6 @@ env:
 
 jobs:
   tf-ci:
-    name: ci-for-tf
     runs-on: ubuntu-latest
     defaults:
       run:
