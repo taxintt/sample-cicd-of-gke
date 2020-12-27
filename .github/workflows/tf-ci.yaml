@@ -13,10 +13,11 @@ env:
 
 jobs:
   tf-ci:
+    name: ci-for-tf
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: .
+        shell: bash
     steps:
       - name: clone repository
         uses: actions/checkout@v2
