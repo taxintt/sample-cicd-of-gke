@@ -10,9 +10,16 @@ terraform:
     template: |
       {{ .Message }}
       {{if .Result}}
-      ```{{ .Result }}```
+
+      ```
+      {{ .Result }}
+      ```
+      
       {{end}}
-      ```{{ .Body }}```
+      
+      ```
+      {{ .Body }}
+      ```
 
 ---
 ci: github-actions
