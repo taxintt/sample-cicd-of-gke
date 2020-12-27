@@ -17,6 +17,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: .
     steps:
       - name: clone repository
         uses: actions/checkout@v2
@@ -62,7 +63,7 @@ jobs:
 
       - name: terraform plan
         id: plan
-        run: terraform plan | tfnotify --config .tfnotify.yaml plan --message "$(date)"
+        run: terraform plan | tfnotify --config tfnotify.yml plan --message "$(date)"
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}
