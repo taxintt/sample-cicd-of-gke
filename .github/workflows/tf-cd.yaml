@@ -1,9 +1,9 @@
 name: terraform-apply
 on:
   pull_request:
-    branches:
-      - main
     types: [closed]
+    branches:
+      - '**'
     paths:
       - '.github/workflows/tf-ci.yaml'
       - '.tfnotify.yaml'
@@ -66,9 +66,7 @@ jobs:
       - name: terraform apply
         id: plan
         run: |
-          terraform apply -no-color -auto-approve >> result.temp
-          cat result.temp | tfnotify --config .tfnotify/github.yml apply --message "$(date)"
-          cat result.temp | tfnotify --config .tfnotify/slack.yml apply --message "$(date)"
+          terraform apply -no-color -auto-approve | tfnotify --config .tfnotify/slack.yml apply --message "$(date)"
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}

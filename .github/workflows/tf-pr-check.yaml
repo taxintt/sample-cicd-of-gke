@@ -58,3 +58,9 @@ jobs:
         run: terraform validate -no-color
         continue-on-error: false
 
+      - name: terraform plan without notification
+        id: plan
+        run: |
+          terraform plan -no-color
+        continue-on-error: true
+
