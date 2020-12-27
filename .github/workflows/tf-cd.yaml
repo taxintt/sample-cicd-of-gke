@@ -5,7 +5,7 @@ on:
     branches:
       - '**'
     paths:
-      - '.github/workflows/tf-ci.yaml'
+      - '.github/workflows/tf-cd.yaml'
       - '.tfnotify.yaml'
       - '**.tf'
 
