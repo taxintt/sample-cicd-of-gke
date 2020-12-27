@@ -7,14 +7,6 @@ on:
       - '.github/workflows/tf-ci.yaml'
       - '.tfnotify.yaml'
       - '**.tf'
-  pull_request:
-    types: [opened]
-    branches:
-      - '**'
-    paths:
-      - '.github/workflows/tf-ci.yaml'
-      - '.tfnotify.yaml'
-      - '**.tf'
 
 env:
   TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
