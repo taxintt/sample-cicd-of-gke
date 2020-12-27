@@ -63,7 +63,9 @@ jobs:
 
       - name: terraform plan
         id: plan
-        run: terraform plan | tfnotify --config tfnotify.yml plan --message "$(date)"
+        run: |
+          terraform plan | tfnotify --config .tfnotify/github.yml plan --message "$(date)"
+          terraform plan | tfnotify --config .tfnotify/slack.yml plan --message "$(date)"
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}
