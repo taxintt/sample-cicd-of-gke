@@ -2,7 +2,7 @@ name: terraform-apply
 on:
   pull_request:
     branches:
-      - '**'
+      - main
     types: [closed]
     paths:
       - '.github/workflows/tf-ci.yaml'
@@ -15,6 +15,7 @@ env:
 jobs:
   tf-cd:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     defaults:
       run:
         shell: bash
