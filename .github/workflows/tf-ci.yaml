@@ -62,7 +62,7 @@ jobs:
 
       - name: terraform plan
         id: plan
-        run: terraform plan -input=false -no-color | tfnotify --config .tfnotify.yaml plan --message "$(date)"
+        run: terraform plan | tfnotify --config .tfnotify.yaml plan --message "$(date)"
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}
