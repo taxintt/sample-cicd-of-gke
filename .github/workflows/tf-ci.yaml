@@ -31,7 +31,7 @@ jobs:
         uses: reviewdog/action-tflint@master
         with:
           github_token: ${{ secrets.github_token }}
-          reporter: github-pr-check 
+          reporter: github-pr-review
           fail_on_error: true
 
       - name: set up terraform
