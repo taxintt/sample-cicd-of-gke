@@ -1,16 +1,9 @@
-name: terraform-plan
+name: terraform-apply
 on:
-  push:
-    branches:
-      - '**'
-    paths:
-      - '.github/workflows/tf-ci.yaml'
-      - '.tfnotify.yaml'
-      - '**.tf'
   pull_request:
-    types: [opened]
     branches:
       - '**'
+    types: [closed]
     paths:
       - '.github/workflows/tf-ci.yaml'
       - '.tfnotify.yaml'
@@ -20,7 +13,7 @@ env:
   TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
 
 jobs:
-  tf-ci:
+  tf-cd:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -29,6 +22,13 @@ jobs:
     steps:
       - name: clone repository
         uses: actions/checkout@v2
+
+      - name: setup gcloud sdk
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
       
       - name: setup tfnotify
         run: |
@@ -62,17 +62,15 @@ jobs:
         run: terraform validate -no-color
         continue-on-error: false
 
-      - name: terraform plan
+      - name: terraform apply
         id: plan
         run: |
-          terraform plan -no-color >> result.temp
-          cat result.temp | tfnotify --config .tfnotify/github.yml plan --message "$(date)"
-          cat result.temp | tfnotify --config .tfnotify/slack.yml plan --message "$(date)"
+          terraform apply -no-color -auto-approve >> result.temp
+          cat result.temp | tfnotify --config .tfnotify/github.yml apply --message "$(date)"
+          cat result.temp | tfnotify --config .tfnotify/slack.yml apply --message "$(date)"
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}
           SLACK_BOT_NAME: tf-notify-bot
           GITHUB_TOKEN: ${{ secrets.github_token }}
         continue-on-error: true
-
-
