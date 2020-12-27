@@ -1,5 +1,5 @@
 ---
-ci: circleci
+ci: github-actions
 notifier:
   slack:
     token: $SLACK_TOKEN
@@ -18,7 +18,7 @@ terraform:
       {{ .Body }}
       ```
 # ---
-# ci: circleci
+# ci: github-actions
 # notifier:
 #   github:
 #     token: $GITHUB_TOKEN
