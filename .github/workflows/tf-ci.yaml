@@ -21,6 +21,13 @@ jobs:
     steps:
       - name: clone repository
         uses: actions/checkout@v2
+
+      - name: setup gcloud sdk
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
       
       - name: setup tfnotify
         run: |
@@ -32,6 +39,7 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
+          filter_mode: "nofilter"
           fail_on_error: true
 
       - name: set up terraform

@@ -17,7 +17,7 @@ resource "google_container_cluster" "primary" {
 
   # https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_versions
   # https://github.com/hashicorp/terraform-provider-google/issues/3966
-  provider = google-beta
+  provider = "google-beta"
 
   addons_config {
     http_load_balancing {
