@@ -10,14 +10,14 @@ resource "google_container_cluster" "primary" {
 
   remove_default_node_pool = true
   initial_node_count       = 3
-  min_master_version       = "${var.node_version}"
+  min_master_version       = var.node_version
 
   network    = "nw-for-k8s-cluster"
   subnetwork = "sub-nw-for-k8s-cluster"
 
   # https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_versions
   # https://github.com/hashicorp/terraform-provider-google/issues/3966
-  provider = "google-beta"
+  provider = google-beta
 
   addons_config {
     http_load_balancing {
