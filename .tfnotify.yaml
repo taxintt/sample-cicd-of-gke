@@ -1,4 +1,3 @@
----
 ci: github-actions
 notifier:
   slack:
@@ -7,6 +6,17 @@ notifier:
     bot: $SLACK_BOT_NAME
 terraform:
   plan:
+    template: |
+      {{ .Message }}
+      {{if .Result}}
+      ```
+      {{ .Result }}
+      ```
+      {{end}}
+      ```
+      {{ .Body }}
+      ```
+  apply:
     template: |
       {{ .Message }}
       {{if .Result}}
