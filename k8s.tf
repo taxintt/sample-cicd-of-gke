@@ -5,8 +5,8 @@ data "google_client_config" "current" {}
 # gcloud container clusters get-credentials tf-gke --project <project_id>
 resource "google_container_cluster" "primary" {
   name     = "tf-gke"
-  project  = "${var.project_id}"
-  location = "${var.zone}"
+  project  = var.project_id
+  location = var.zone
 
   remove_default_node_pool = true
   initial_node_count       = 3
