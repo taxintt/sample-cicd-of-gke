@@ -10,13 +10,10 @@ terraform:
     template: |
       {{ .Message }}
       {{if .Result}}
-
       ```
       {{ .Result }}
       ```
-      
       {{end}}
-      
       ```
       {{ .Body }}
       ```
