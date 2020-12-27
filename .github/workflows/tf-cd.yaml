@@ -61,7 +61,6 @@ jobs:
       - name: terraform validate
         id: validate
         run: terraform validate -no-color
-        continue-on-error: false
 
       - name: terraform apply
         id: plan
@@ -72,4 +71,3 @@ jobs:
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}
           SLACK_BOT_NAME: tf-notify-bot
           GITHUB_TOKEN: ${{ secrets.github_token }}
-        continue-on-error: true
