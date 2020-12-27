@@ -7,6 +7,14 @@ on:
       - '.github/workflows/tf-ci.yaml'
       - '.tfnotify.yaml'
       - '**.tf'
+  pull_request:
+    types: [opened]
+    branches:
+      - '**'
+    paths:
+      - '.github/workflows/tf-ci.yaml'
+      - '.tfnotify.yaml'
+      - '**.tf'
 
 env:
   TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
@@ -38,7 +46,7 @@ jobs:
         uses: reviewdog/action-tflint@master
         with:
           github_token: ${{ secrets.github_token }}
-          reporter: github-pr-check
+          reporter: github-pr-review
           filter_mode: "nofilter"
           fail_on_error: true
 
