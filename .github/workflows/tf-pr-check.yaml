@@ -1,6 +1,6 @@
-name: terraform-plan
+name: terraform-pr-check
 on:
-  push:
+  pull_request:
     branches:
       - '**'
     paths:
@@ -66,5 +66,3 @@ jobs:
           SLACK_BOT_NAME: tf-notify-bot
           GITHUB_TOKEN: ${{ secrets.github_token }}
         continue-on-error: true
-
-
