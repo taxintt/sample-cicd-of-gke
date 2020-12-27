@@ -64,9 +64,10 @@ jobs:
       - name: terraform plan
         id: plan
         run: |
-          export TEMP=`terraform plan -no-color`
-          cat $TEMP | tfnotify --config .tfnotify/github.yml plan --message "$(date)"
-          cat $TEMP | tfnotify --config .tfnotify/slack.yml plan --message "$(date)"
+          terraform plan -no-color >> result.temp
+          cat result.temp
+          cat result.temp | tfnotify --config .tfnotify/github.yml plan --message "$(date)"
+          cat result.temp | tfnotify --config .tfnotify/slack.yml plan --message "$(date)"
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}
