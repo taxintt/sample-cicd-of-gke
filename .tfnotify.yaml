@@ -1,42 +1,61 @@
 ---
 ci: circleci
 notifier:
-  github:
-    token: $GITHUB_TOKEN
-    repository:
-      owner: $OWNER
-      name: $NAME
+  slack:
+    token: $SLACK_TOKEN
+    channel: $SLACK_CHANNEL_ID
+    bot: $SLACK_BOT_NAME
 terraform:
-  fmt:
-    template: |
-      {{ .Title }}
-
-      {{ .Message }}
-
-      {{ .Result }}
-
-      {{ .Body }}
   plan:
     template: |
-      {{ .Title }} <sup>[CI link]( {{ .Link }} )</sup>
       {{ .Message }}
       {{if .Result}}
-      <pre><code>{{ .Result }}
-      </pre></code>
+      ```
+      {{ .Result }}
+      ```
       {{end}}
-      <details><summary>Details (Click me)</summary>
+      ```
+      {{ .Body }}
+      ```
+# ---
+# ci: circleci
+# notifier:
+#   github:
+#     token: $GITHUB_TOKEN
+#     repository:
+#       owner: $OWNER
+#       name: $NAME
+# terraform:
+#   fmt:
+#     template: |
+#       {{ .Title }}
 
-      <pre><code>{{ .Body }}
-      </pre></code></details>
-  apply:
-    template: |
-      {{ .Title }}
-      {{ .Message }}
-      {{if .Result}}
-      <pre><code>{{ .Result }}
-      </pre></code>
-      {{end}}
-      <details><summary>Details (Click me)</summary>
+#       {{ .Message }}
 
-      <pre><code>{{ .Body }}
-      </pre></code></details>
+#       {{ .Result }}
+
+#       {{ .Body }}
+#   plan:
+#     template: |
+#       {{ .Title }} <sup>[CI link]( {{ .Link }} )</sup>
+#       {{ .Message }}
+#       {{if .Result}}
+#       <pre><code>{{ .Result }}
+#       </pre></code>
+#       {{end}}
+#       <details><summary>Details (Click me)</summary>
+
+#       <pre><code>{{ .Body }}
+#       </pre></code></details>
+#   apply:
+#     template: |
+#       {{ .Title }}
+#       {{ .Message }}
+#       {{if .Result}}
+#       <pre><code>{{ .Result }}
+#       </pre></code>
+#       {{end}}
+#       <details><summary>Details (Click me)</summary>
+
+#       <pre><code>{{ .Body }}
+#       </pre></code></details>
