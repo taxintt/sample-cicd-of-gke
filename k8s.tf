@@ -5,12 +5,12 @@ data "google_client_config" "current" {}
 # gcloud container clusters get-credentials tf-gke --project <project_id>
 resource "google_container_cluster" "primary" {
   name     = "tf-gke"
-  project  = "${var.project_id}"
-  location = "${var.zone}"
+  project  = var.project_id
+  location = var.zone
 
   remove_default_node_pool = true
   initial_node_count       = 3
-  min_master_version       = "${var.node_version}"
+  min_master_version       = var.node_version
 
   network    = "nw-for-k8s-cluster"
   subnetwork = "sub-nw-for-k8s-cluster"
@@ -51,7 +51,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   # https://blog.yukirii.dev/create-gke-with-least-privilege-sa-using-terraform/
   node_config {
     preemptible     = true
-    machine_type    = "e2-small"
+    machine_type    = "fx-small"
     service_account = "least-privilege-sa-for-gke@${var.project_id}.iam.gserviceaccount.com"
 
     metadata = {

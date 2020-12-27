@@ -1,20 +1,16 @@
----
 ci: github-actions
 notifier:
   github:
     token: $GITHUB_TOKEN
     repository:
-      owner: $OWNER
-      name: $NAME
+      owner: "taxintt"
+      name: "sample-cicd-of-gke"
 terraform:
   fmt:
     template: |
       {{ .Title }}
-
       {{ .Message }}
-
       {{ .Result }}
-
       {{ .Body }}
   plan:
     template: |
@@ -25,9 +21,17 @@ terraform:
       </pre></code>
       {{end}}
       <details><summary>Details (Click me)</summary>
-
       <pre><code>{{ .Body }}
-      </pre></code></details>
+      <pre></code></details>
+    when_destroy:
+      template: |
+        ## :warning: Resource Deletion will happen :warning:
+        This plan contains **resource deletion operation**. Please check the plan result very carefully!!!
+        {{ .Link }}
+        {{if .Result}}
+        <pre><code> {{ .Result }}
+        </pre></code>
+        {{end}}
   apply:
     template: |
       {{ .Title }}
@@ -37,26 +41,5 @@ terraform:
       </pre></code>
       {{end}}
       <details><summary>Details (Click me)</summary>
-
       <pre><code>{{ .Body }}
       </pre></code></details>
-
-
----
-notifier:
-  slack:
-    token: $SLACK_TOKEN
-    channel: $SLACK_CHANNEL_ID
-    bot: $SLACK_BOT_NAME
-terraform:
-  plan:
-    template: |
-      {{ .Message }}
-      {{if .Result}}
-      ```
-      {{ .Result }}
-      ```
-      {{end}}
-      ```
-      {{ .Body }}
-      ```

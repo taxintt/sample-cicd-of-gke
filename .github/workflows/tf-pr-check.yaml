@@ -1,10 +1,11 @@
 name: terraform-plan
 on:
-  push:
+  pull_request:
+    types: [opened]
     branches:
       - '**'
     paths:
-      - '.github/workflows/tf-ci.yaml'
+      - '.github/workflows/tf-pr-check.yaml'
       - '.tfnotify.yaml'
       - '**.tf'
 
@@ -28,11 +29,6 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
-      
-      - name: setup tfnotify
-        run: |
-          sudo curl -fL -o tfnotify.tar.gz https://github.com/mercari/tfnotify/releases/download/v0.7.0/tfnotify_linux_amd64.tar.gz
-          sudo tar -C /usr/bin -xzf ./tfnotify.tar.gz
       
       - name: tflint
         uses: reviewdog/action-tflint@master
@@ -61,18 +57,4 @@ jobs:
         id: validate
         run: terraform validate -no-color
         continue-on-error: false
-
-      - name: terraform plan
-        id: plan
-        run: |
-          terraform plan -no-color >> result.temp
-          cat result.temp | tfnotify --config .tfnotify/github.yml plan --message "$(date)"
-          cat result.temp | tfnotify --config .tfnotify/slack.yml plan --message "$(date)"
-        env:
-          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}
-          SLACK_BOT_NAME: tf-notify-bot
-          GITHUB_TOKEN: ${{ secrets.github_token }}
-        continue-on-error: true
-
 
