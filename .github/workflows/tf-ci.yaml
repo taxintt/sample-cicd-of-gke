@@ -1,4 +1,4 @@
-name: terraform-plan-n-test
+name: terraform-plan
 on:
   push:
     branches:

@@ -1,11 +1,11 @@
 # https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#use_least_privilege_sa
 resource "google_service_account" "least-privilege-sa-for-gke" {
-  project     = "${var.project_name}"
+  project     = "${var.project_id}"
   account_id   = "least-privilege-sa-for-gke"
 }
 
 resource "google_project_iam_member" "gke_node_pool_roles" {
-  project     = "${var.project_name}"
+  project     = "${var.project_id}"
   for_each = toset([
     "roles/logging.logWriter",
     "roles/monitoring.metricWriter",
@@ -22,6 +22,6 @@ resource "google_project_iam_member" "gke_node_pool_roles" {
 #   role               = "roles/monitoring.viewer"
 
 #   members = [
-#     "serviceAccount:${var.sa_name}@${var.project_name}.iam.gserviceaccount.com",
+#     "serviceAccount:${var.sa_name}@${var.project_id}.iam.gserviceaccount.com",
 #   ]
 # }

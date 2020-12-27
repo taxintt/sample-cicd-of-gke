@@ -2,10 +2,10 @@ data "google_client_config" "current" {}
 
 
 # generating a kubeconfig entry:
-# gcloud container clusters get-credentials tf-gke --project <project_name>
+# gcloud container clusters get-credentials tf-gke --project <project_id>
 resource "google_container_cluster" "primary"{
     name = "tf-gke"
-    project = "${var.project_name}"
+    project = "${var.project_id}"
     location = "${var.zone}"
 
     remove_default_node_pool = true
@@ -52,7 +52,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   node_config {
     preemptible  = true
     machine_type = "e2-small"
-    service_account = "least-privilege-sa-for-gke@${var.project_name}.iam.gserviceaccount.com"
+    service_account = "least-privilege-sa-for-gke@${var.project_id}.iam.gserviceaccount.com"
 
     metadata = {
       disable-legacy-endpoints = "true"

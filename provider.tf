@@ -1,19 +1,19 @@
 provider "google" {
   version = "3.51.0"
-  project = "${var.project_name}"
+  project = "${var.project_id}"
   region  = "${var.region}"
 }
 
 provider "google-beta" {
   version = "3.51.0"
-  project = "${var.project_name}"
+  project = "${var.project_id}"
   region  = "${var.region}"
 }
 
 provider "kubernetes" {
   # https://github.com/hashicorp/terraform-provider-kubernetes/releases
   version          = "1.13.3"
-  project          = "${var.project_name}"
+  project          = "${var.project_id}"
   load_config_file = false
 
   host  = "https://${data.google_container_cluster.primary.endpoint}"
