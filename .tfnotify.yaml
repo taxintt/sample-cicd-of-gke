@@ -8,6 +8,7 @@ notifier:
 terraform:
   plan:
     template: |
+      {{ .Title }}
       {{ .Message }}
       {{if .Result}}
       ```

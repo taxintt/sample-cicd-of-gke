@@ -63,11 +63,9 @@ jobs:
         run: terraform validate -no-color
         continue-on-error: false
 
-      # - name: terraform test
-
       - name: terraform plan
         id: plan
-        run: terraform plan -no-color | tfnotify -config .tfnotify.yaml plan
+        run: terraform plan -no-color | tfnotify plan --config .tfnotify.yaml
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}
