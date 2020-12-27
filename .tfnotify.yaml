@@ -19,12 +19,13 @@ terraform:
       ```
 
 ---
+ci: github-actions
 notifier:
   github:
     token: $GITHUB_TOKEN
     repository:
-      owner: $OWNER
-      name: $NAME
+      owner: "taxintt"
+      name: "sample-cicd-of-gke"
 terraform:
   fmt:
     template: |

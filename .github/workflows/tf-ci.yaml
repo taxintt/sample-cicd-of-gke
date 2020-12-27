@@ -72,8 +72,6 @@ jobs:
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}
           SLACK_BOT_NAME: tf-notification
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: taxintt
-          NAME: sample-cicd-of-gke
         continue-on-error: true
 
 
