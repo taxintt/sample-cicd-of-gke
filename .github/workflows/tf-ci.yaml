@@ -1,0 +1,78 @@
+name: terraform-plan-n-test
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - '.github/workflows/tf-ci.yaml'
+      - '.tfnotify.yaml'
+      - '**.tf'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GCLOUD_SDK_VERSION: '293.0.0'
+  TF_VERSION: '0.12.8'
+  TFNOTIFY_VERSION: 'v0.7.0'
+  TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+jobs:
+  tf-ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: clone repository
+        uses: actions/checkout@v2
+
+      - name: setup gcloud sdk
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: $GCLOUD_SDK_VERSION
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+      
+      - name: setup tfnotify
+        run: |
+          sudo curl -fL -o tfnotify.tar.gz https://github.com/mercari/tfnotify/releases/download/$TFNOTIFY_VERSION/tfnotify_linux_amd64.tar.gz
+          sudo tar -C /usr/bin -xzf ./tfnotify.tar.gz
+      
+      - name: tflint
+        uses: reviewdog/action-tflint@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_error: true
+
+      - name: set up terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: $TF_VERSION
+          cli_config_credentials_token: ${{ secrets.GCP_TF_TOKEN }}
+      
+      - name: terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: terraform init
+        id: init
+        run: terraform init
+
+      - name: terraform validate
+        id: validate
+        run: terraform validate -no-color
+        continue-on-error: false
+
+      # - name: terraform test
+
+      - name: terraform plan
+        id: plan
+        run: terraform plan -no-color | tfnotify -config .tfnotify.yaml plan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: taxintt
+          NAME: sample-cicd-of-gke
+        continue-on-error: true
+
+
