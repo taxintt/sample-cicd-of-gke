@@ -9,7 +9,6 @@ resource "google_container_cluster" "primary" {
   location = var.zone
 
   remove_default_node_pool = true
-  initial_node_count       = 3
   min_master_version       = var.node_version
 
   # https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_versions
@@ -42,12 +41,12 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   project  = google_container_cluster.primary.project
   location = google_container_cluster.primary.location
 
-  node_count = 3
+  node_count = 4
 
   # https://blog.yukirii.dev/create-gke-with-least-privilege-sa-using-terraform/
   node_config {
     preemptible     = true
-    machine_type    = "e2-small"
+    machine_type    = "n1-standard-1"
     service_account = "least-privilege-sa-for-gke@${var.project_id}.iam.gserviceaccount.com"
 
     metadata = {
