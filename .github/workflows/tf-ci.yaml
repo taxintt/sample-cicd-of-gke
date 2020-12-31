@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - '**'
+      - '!main'
     paths:
       - '.github/workflows/tf-ci.yaml'
       - '.tfnotify.yaml'
@@ -40,7 +41,7 @@ jobs:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           filter_mode: "nofilter"
-          fail_on_error: true
+          fail_on_error: false
 
       - name: set up terraform
         uses: hashicorp/setup-terraform@v1
@@ -60,14 +61,13 @@ jobs:
       - name: terraform validate
         id: validate
         run: terraform validate -no-color
-        continue-on-error: false
+        continue-on-error: true
 
-      - name: terraform plan
+      - name: terraform plan with notification to GitHub
         id: plan
         run: |
           terraform plan -no-color >> result.temp
           cat result.temp | tfnotify --config .tfnotify/github.yml plan --message "$(date)"
-          cat result.temp | tfnotify --config .tfnotify/slack.yml plan --message "$(date)"
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}

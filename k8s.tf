@@ -12,9 +12,6 @@ resource "google_container_cluster" "primary" {
   initial_node_count       = 3
   min_master_version       = var.node_version
 
-  network    = "nw-for-k8s-cluster"
-  subnetwork = "sub-nw-for-k8s-cluster"
-
   # https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_versions
   # https://github.com/hashicorp/terraform-provider-google/issues/3966
   provider = "google-beta"
@@ -36,7 +33,6 @@ resource "google_container_cluster" "primary" {
 
   depends_on = [
     google_service_account.least-privilege-sa-for-gke,
-    google_compute_network.default,
   ]
 }
 
@@ -65,6 +61,5 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 
   depends_on = [
     google_service_account.least-privilege-sa-for-gke,
-    google_compute_network.default,
   ]
 }

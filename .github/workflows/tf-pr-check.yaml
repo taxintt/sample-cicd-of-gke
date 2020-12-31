@@ -1,4 +1,4 @@
-name: terraform-plan
+name: terraform-pr-check
 on:
   pull_request:
     types: [opened]
@@ -56,9 +56,16 @@ jobs:
         run: terraform validate -no-color
         continue-on-error: false
 
-      - name: terraform plan without notification
+      - name: terraform plan with notification to slack and GitHub
         id: plan
         run: |
-          terraform plan -no-color
+          terraform plan -no-color >> result.temp
+          cat result.temp | tfnotify --config .tfnotify/github.yml plan --message "$(date)"
+          cat result.temp | tfnotify --config .tfnotify/slack.yml plan --message "$(date)"
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL }}
+          SLACK_BOT_NAME: tf-notify-bot
+          GITHUB_TOKEN: ${{ secrets.github_token }}
         continue-on-error: true
 
