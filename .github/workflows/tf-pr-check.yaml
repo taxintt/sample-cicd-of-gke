@@ -4,7 +4,6 @@ on:
     types: [opened]
     branches:
       - '**'
-      - '!main'
     paths:
       - '**'
 
@@ -36,6 +35,11 @@ jobs:
           reporter: github-pr-review
           filter_mode: "nofilter"
           fail_on_error: true
+
+      - name: setup tfnotify
+        run: |
+          sudo curl -fL -o tfnotify.tar.gz https://github.com/mercari/tfnotify/releases/download/v0.7.0/tfnotify_linux_amd64.tar.gz
+          sudo tar -C /usr/bin -xzf ./tfnotify.tar.gz
 
       - name: set up terraform
         uses: hashicorp/setup-terraform@v1
