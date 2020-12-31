@@ -21,7 +21,7 @@ resource "google_container_cluster" "primary" {
       disabled = true
     }
     istio_config {
-      disabled = false
+      disabled = true
     }
   }
 
