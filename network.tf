@@ -1,5 +1,5 @@
 # https://istio.io/latest/docs/setup/platform-setup/gke/
-resource "google_compute_firewall" "default" {
+resource "google_compute_firewall" "rule-for-istio" {
   name    = "allow-connections-for-istio"
   network = var.network
 
@@ -12,7 +12,7 @@ resource "google_compute_firewall" "default" {
   target_tags = ["istio"]
 }
 
-resource "google_compute_firewall" "default" {
+resource "google_compute_firewall" "rule-for-iap" {
   name    = "allow-iap-forwarding-ssh"
   network = var.network
 
