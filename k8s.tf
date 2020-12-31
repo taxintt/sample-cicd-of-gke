@@ -24,6 +24,11 @@ resource "google_container_cluster" "primary" {
     http_load_balancing {
       disabled = true
     }
+    # To use the Istio CNI feature, the network-policy GKE feature must be enabled in the cluster.
+    # https://istio.io/latest/docs/setup/platform-setup/gke/
+    network_policy_config {
+      disabled = false
+    }
     istio_config {
       disabled = true
     }
