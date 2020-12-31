@@ -10,6 +10,7 @@ resource "google_container_cluster" "primary" {
 
   remove_default_node_pool = true
   min_master_version       = var.node_version
+  initial_node_count = 1
 
   # https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_versions
   # https://github.com/hashicorp/terraform-provider-google/issues/3966
