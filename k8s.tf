@@ -19,9 +19,7 @@ resource "google_container_cluster" "primary" {
   # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#monitoring_service
   # https://cloud.google.com/kubernetes-engine/docs/how-to/small-cluster-tuning?hl=ja#kubernetes-engine-monitoring
   monitoring_service = "none"
-  
-  tags = ["istio"]
-  
+
   addons_config {
     http_load_balancing {
       disabled = true
@@ -68,6 +66,8 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
+
+    tags = ["istio"]
   }
 
   depends_on = [
