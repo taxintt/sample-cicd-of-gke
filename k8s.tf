@@ -66,6 +66,8 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
+
+    tags = ["istio"]
   }
 
   depends_on = [

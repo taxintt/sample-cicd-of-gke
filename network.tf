@@ -9,5 +9,5 @@ resource "google_compute_firewall" "default" {
   }
 
   # https://stackoverflow.com/questions/65297738/how-to-use-nodeport-in-custom-kubenetes-cluster-on-gcp
-  source_tags = ["node"]
+  target_tags = ["istio"]
 }
