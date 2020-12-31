@@ -1,4 +1,4 @@
-name: terraform-plan
+name: terraform-pr-check
 on:
   pull_request:
     types: [opened]
