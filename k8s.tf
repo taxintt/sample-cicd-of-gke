@@ -16,6 +16,10 @@ resource "google_container_cluster" "primary" {
   # https://github.com/hashicorp/terraform-provider-google/issues/3966
   provider = "google-beta"
 
+  # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#monitoring_service
+  # https://cloud.google.com/kubernetes-engine/docs/how-to/small-cluster-tuning?hl=ja#kubernetes-engine-monitoring
+  monitoring_service = "none"
+
   addons_config {
     http_load_balancing {
       disabled = true
@@ -47,7 +51,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   # https://blog.yukirii.dev/create-gke-with-least-privilege-sa-using-terraform/
   node_config {
     preemptible     = true
-    machine_type    = "n1-standard-1"
+    machine_type    = "e2-medium"
     service_account = "least-privilege-sa-for-gke@${var.project_id}.iam.gserviceaccount.com"
 
     metadata = {
