@@ -3,9 +3,10 @@ resource "google_compute_firewall" "rule-for-istio" {
   name    = "allow-connections-for-istio"
   network = var.network
 
+  # TBD: add ports of NodePort later
   allow {
     protocol = "tcp"
-    ports    = ["10250", "443", "15017"]
+    ports    = ["80", "443", "10250", "15017"]
   }
 
   # https://stackoverflow.com/questions/65297738/how-to-use-nodeport-in-custom-kubenetes-cluster-on-gcp
