@@ -9,7 +9,8 @@ resource "google_project_iam_member" "gke_node_pool_roles" {
   for_each = toset([
     "roles/logging.logWriter",
     "roles/monitoring.metricWriter",
-    "roles/monitoring.viewer"
+    "roles/monitoring.viewer",
+    "roles/storage.objectViewer"
   ])
   role   = each.value
   member = "serviceAccount:${google_service_account.least-privilege-sa-for-gke.email}"
