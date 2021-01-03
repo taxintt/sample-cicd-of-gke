@@ -49,14 +49,12 @@ jobs:
         id: init
         run: terraform init
 
-      - name: tflint
-        uses: reviewdog/action-tflint@master
-        with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-check
-          filter_mode: "nofilter"
-          flags: "--deep"
-          fail_on_error: false
+      - name: Setup tflint
+        run: HOMEBREW_NO_AUTO_UPDATE=1 brew install tflint
+
+      - name: Check tflint
+        run: tflint --config .tflint.hcl
+        continue-on-error: true
 
       - name: terraform validate
         id: validate
