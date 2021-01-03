@@ -58,7 +58,7 @@ jobs:
 
       - name: 'Check tflint'
         run: tflint --config tflint.hcl
-        continue-on-error: true
+        continue-on-error: false
 
       - name: terraform plan with notification to slack and GitHub
         id: plan
