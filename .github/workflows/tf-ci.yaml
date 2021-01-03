@@ -46,12 +46,17 @@ jobs:
         continue-on-error: true
 
       - name: terraform init
-        id: init
+        id: tf-init
         run: terraform init
 
       - name: Setup tflint
-        run: HOMEBREW_NO_AUTO_UPDATE=1 brew install tflint
-
+        id: tflint
+        run: |
+          HOMEBREW_NO_AUTO_UPDATE=1 brew install tflint
+          git clone -b master --depth 1 git@github.com:terraform-linters/tflint-ruleset-google.git
+          cd ./tflint-ruleset-google
+          make install
+          
       - name: Check tflint
         run: tflint --config .tflint.hcl
         continue-on-error: true
