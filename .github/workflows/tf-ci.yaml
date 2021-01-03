@@ -53,7 +53,7 @@ jobs:
         run: HOMEBREW_NO_AUTO_UPDATE=1 brew install tflint
 
       - name: Check tflint
-        run: tflint --config tflint.hcl
+        run: tflint --config .tflint.hcl
         continue-on-error: true
 
       - name: terraform validate
