@@ -53,7 +53,7 @@ jobs:
         id: tflint
         run: |
           HOMEBREW_NO_AUTO_UPDATE=1 brew install tflint
-          git clone -b master --depth 1 git@github.com:terraform-linters/tflint-ruleset-google.git
+          GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone -b master --depth 1 git@github.com:terraform-linters/tflint-ruleset-google.git
           cd ./tflint-ruleset-google
           make install
         env:
