@@ -11,7 +11,7 @@ env:
   TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
 
 jobs:
-  tf-ci:
+  tf-pr-check:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -53,19 +53,13 @@ jobs:
         run: terraform validate -no-color
         continue-on-error: false
 
-      - name: Setup tflint
-        id: tflint
-        run: |
-          HOMEBREW_NO_AUTO_UPDATE=1 brew install tflint
-          git clone -b master --depth 1 git@github.com:terraform-linters/tflint-ruleset-google.git
-          cd ./tflint-ruleset-google
-          make install
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check tflint
-        run: tflint --config .tflint.hcl
-        continue-on-error: false
+      - name: tflint
+        uses: reviewdog/action-tflint@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review 
+          fail_on_error: "false" 
+          filter_mode: "nofilter"
 
       - name: terraform plan with notification to slack and GitHub
         id: plan

@@ -49,22 +49,16 @@ jobs:
         id: tf-init
         run: terraform init
 
-      - name: Setup tflint
-        id: tflint
-        run: |
-          HOMEBREW_NO_AUTO_UPDATE=1 brew install tflint
-          git clone -b master --depth 1 git@github.com:terraform-linters/tflint-ruleset-google.git
-          cd ./tflint-ruleset-google
-          make install
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Check tflint
-        run: tflint --config .tflint.hcl
-        continue-on-error: true
+      - name: tflint
+        uses: reviewdog/action-tflint@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review 
+          fail_on_error: "false" 
+          filter_mode: "nofilter" 
 
       - name: terraform validate
-        id: validate
+        id: validate　
         run: terraform validate -no-color
         continue-on-error: true
 
