@@ -56,7 +56,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   # https://blog.yukirii.dev/create-gke-with-least-privilege-sa-using-terraform/
   node_config {
     preemptible     = true
-    machine_type    = "e2-medium"
+    machine_type    = "e2-medium-xxxxx"
     service_account = "least-privilege-sa-for-gke@${var.project_id}.iam.gserviceaccount.com"
 
     metadata = {
