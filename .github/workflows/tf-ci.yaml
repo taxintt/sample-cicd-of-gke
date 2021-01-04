@@ -58,7 +58,7 @@ jobs:
           filter_mode: "nofilter" 
 
       - name: terraform validate
-        id: validate　
+        id: validate
         run: terraform validate -no-color
         continue-on-error: true
 
